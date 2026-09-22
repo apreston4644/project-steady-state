@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Searchable MCE expertise and sustainable capacity directory prototype.">
+  <title>Project Steady State</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b233f'/%3E%3Cpath d='M16 39h12l5-16 6 23 5-14h6' fill='none' stroke='%23f0b35c' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./overrides.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" data-view="directory" aria-label="Open directory">
+      <span class="brand-mark"><span></span></span>
+      <span><strong>Project Steady State</strong><small>Metallurgical &amp; Corrosion Engineering</small></span>
+    </button>
+    <nav aria-label="Primary">
+      <button class="nav-button active" data-view="directory">Expert directory</button>
+      <button class="nav-button" data-view="pulse">Weekly pulse</button>
+    </nav>
+    <div class="demo-label"><span></span>Leadership prototype</div>
+  </header>
+
+  <main>
+    <section id="directory-view" class="view active">
+      <div class="intro-row">
+        <div>
+          <p class="eyebrow">Find expertise + sustainable capacity</p>
+          <h1>Who can help?</h1>
+          <p class="subtle">Search the full 50-person MCE public roster. Bill rates use the supplied 2026 schedule; workload and availability remain fictional demonstration data.</p>
+        </div>
+        <div class="snapshot" aria-label="Directory snapshot">
+          <div><strong id="roster-count">50</strong><span>people</span></div>
+          <div><strong id="available-count">—</strong><span>with 8+ hrs</span></div>
+          <div><strong id="office-count">—</strong><span>offices</span></div>
+        </div>
+      </div>
+
+      <div class="search-shell">
+        <label class="search-field">
+          <span class="sr-only">Search people and competencies</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+          <input id="search-input" type="search" placeholder="Search people, skills, offices, certifications…" autocomplete="off">
+          <kbd>/</kbd>
+        </label>
+        <button id="filters-toggle" class="secondary-button mobile-only">Filters <span id="active-filter-count"></span></button>
+      </div>
+
+      <div class="directory-layout">
+        <aside id="filters-panel" class="filters" aria-label="Directory filters">
+          <div class="filter-heading"><h2>Refine results</h2><button id="clear-filters">Clear all</button></div>
+          <fieldset>
+            <legend>Technical competency</legend>
+            <div id="competency-filters" class="check-list"></div>
+          </fieldset>
+          <fieldset>
+            <legend>Professional licensure</legend>
+            <label class="check-row"><input id="pe-only" type="checkbox"><span>P.E. publicly listed</span></label>
+            <label class="check-row"><input id="chartered-only" type="checkbox"><span>Chartered / international</span></label>
+          </fieldset>
+          <fieldset>
+            <legend>Certification</legend>
+            <select id="cert-filter" aria-label="Certification"><option value="">Any certification</option></select>
+          </fieldset>
+          <fieldset>
+            <legend>Geography</legend>
+            <select id="region-filter" aria-label="Geography"><option value="">All regions</option></select>
+          </fieldset>
+          <fieldset>
+            <legend>Maximum bill rate <span class="internal-chip">Internal</span></legend>
+            <select id="rate-filter" aria-label="Maximum fictional bill rate">
+              <option value="999">Any rate</option><option value="350">Up to $350/hr</option><option value="450">Up to $450/hr</option><option value="550">Up to $550/hr</option><option value="650">Up to $650/hr</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <legend>Minimum weekly capacity <span class="demo-chip">Demo</span></legend>
+            <div class="range-row"><input id="availability-filter" type="range" min="0" max="20" step="2" value="0"><output id="availability-output">Any</output></div>
+          </fieldset>
+        </aside>
+
+        <section class="results" aria-live="polite">
+          <div class="results-toolbar">
+            <p><strong id="result-count">50</strong> matches</p>
+            <label>Sort
+              <select id="sort-select"><option value="match">Best match</option><option value="availability">Most capacity</option><option value="rate">Lowest rate</option><option value="name">Name</option></select>
+            </label>
+          </div>
+          <div id="active-chips" class="active-chips"></div>
+          <div id="people-grid" class="people-grid"></div>
+          <div id="empty-state" class="empty-state" hidden>
+            <h3>No matches</h3><p>Try removing a filter or broadening the search.</p><button class="primary-button" id="empty-clear">Clear filters</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="pulse-view" class="view">
+      <div class="pulse-wrap">
+        <div class="pulse-header">
+          <div><p class="eyebrow">Employee-facing weekly check-in</p><h1>Four-week workload pulse</h1><p class="subtle">Confirm what is already committed, what may materialize, and what additional work you can sustainably take on.</p></div>
+          <label class="employee-picker">Viewing as<select id="employee-select"></select></label>
+        </div>
+        <div class="pulse-status">
+          <div><span class="status-dot"></span><strong>Forecast ready to review</strong><small>Last confirmed: September 14, 2026</small></div>
+          <button id="reconfirm-button" class="secondary-button">No changes — reconfirm</button>
+        </div>
+        <form id="pulse-form">
+          <section class="form-card">
+            <div class="step-label">01 · Weekly outlook</div>
+            <h2>How does your next month look?</h2>
+            <p>Hours are a forecast, not a commitment. Pipeline work stays separate from confirmed work.</p>
+            <div class="week-table-wrap">
+              <table class="week-table">
+                <thead><tr><th>Week starting</th><th>Confirmed hrs</th><th>Pipeline hrs</th><th>Confidence</th><th>Additional sustainable hrs</th></tr></thead>
+                <tbody id="week-inputs"></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="form-card two-col">
+            <div>
+              <div class="step-label">02 · Timing</div><h2>When could you start something new?</h2>
+              <label class="field-label">Earliest start date<input id="start-date" type="date" value="2026-09-23"></label>
+              <label class="field-label">Time away or timing constraints<textarea id="constraints" rows="3" placeholder="Optional"></textarea></label>
+            </div>
+            <div>
+              <div class="step-label">03 · Interests</div><h2>What work would you like to take on?</h2>
+              <label class="field-label">Interests or other constraints<textarea id="interests" rows="7" placeholder="Optional — e.g., failure analysis involving welded structures"></textarea></label>
+            </div>
+          </section>
+          <div class="form-actions"><p><strong>Privacy note:</strong> Prototype responses stay on this device. A missing response never means zero availability.</p><button class="primary-button" type="submit">Save weekly pulse</button></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="profile-dialog">
+    <button class="dialog-close" aria-label="Close profile">×</button>
+    <div id="profile-content"></div>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
