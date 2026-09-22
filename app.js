@@ -18,7 +18,7 @@ const competencyRules = [
   ["Energy systems",/oil and gas|power generation|pipeline|utility|utilities|downhole|HPHT/i]
 ];
 const starterOverrides = {
-  "Alexander Preston":["Failure analysis","Powder metallurgy","Additive manufacturing"],
+  "Alexander Preston":["Welding","Additive manufacturing","Corrosion"],
   "Connor Slone":["Failure analysis","Welding","Corrosion"],
   "Gabriel Ganot":["Failure analysis","Welding","Corrosion"],
   "Dan Kaplowitz":["Welding","Failure analysis","Additive manufacturing"],
